@@ -1,0 +1,144 @@
+C++의 클래스
+
+구조체와 클래스의 차이점
+1) 일반적으로 C++의 클래스는 구조체보다 더 효과적인 문법이다. 구조체와 클래스는 거의 흡사하게 동작하지만, 클래스에서는 내부적으로 ‘함수’ 등을 포함할 수 있다.
+2) 또한 클래스는 상속(Inheritance) 등의 개념을 프로그래밍에서 그대로 이용할 수 있다는 점에서 객체 지향 프로그래밍(Object-Oriented Programming)을 가능하도록 해주는 기본적인 단위이다. 
+
+구조체와 클래스의 차이점 : 구조체
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct student
+{
+	string name;
+	int score;
+};
+
+int main(void)
+{
+	struct student a;
+	a.name = "전장우";
+	a.score = 100;
+	cout << a.name << " : " << a.score << "점" << endl;
+	system("pause");
+	return 0;
+}
+
+구조체와 클래스의 차이점 : 클래스
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Student
+{
+private:
+	string name;
+	int score;
+public:
+	Student(string n, int s)
+	{
+		name = n;
+		score = s;
+	}
+	void show()
+	{
+		cout << name << " : " << score << "점" << endl;
+	}
+};
+
+int main(void)
+{
+	Student a = Student("전장우", 100);
+	a.show();
+	system("pause");
+	return 0;
+}
+
+객체 지향 프로그래밍의 특징
+C++은 클래스를 이용해 ‘현실 세계의 사물’인 객체를 프로그램 내에서 구현할 수 있도록 해주며, 객체 지향 프로그래밍은 다음과 같은 특징 때문에 소스코드를 보다 간결하고 생산성 높게 만들어 준다.
+
+1) 추상화(Abstract)
+2) 캡슐화
+3) 상속성
+4) 정보 은닉
+5) 다형성(Polymorphism)
+
+C++의 클래스 : 멤버(Member)
+1) 멤버 변수를 속성, 혹은 프로퍼티(Property)라고도 부른다.
+2) 멤버 함수를 메소드(Method)라고도 부른다.
+
+C++의 클래스 : 인스턴스(Instance)
+1) C++에서는 클래스를 활용해 만든 변수를 인스턴스(Instance)라고 한다. 실제로 프로그램 상에서 객체가 살아서 동작하도록 해준다. 하나의 클래스에서 여러 개의 서로 다른 인스턴스를 만들 수 있다.
+
+C++의 클래스 : 접근 한정자
+-public : 클래스, 멤버 등을 외부로 공개한다. 해당 객체를 사용하는 어떤 곳에서도 접근할 수 있다.
+-private : 클래스, 멤버 등을 내부에서만 활용한다. 외부에서 해당 객체에 접근할 수 없다.
+
+클래스는 기본적으로 멤버를 private 형태로 간주한다. 반대로 구조체는 기본적으로 멤버를 public으로 간주한다. 따라서 클래스에서 'private:' 부분을 제거하면 멤버는 자동으로 private 문법을 따른다.
+
+class Student
+{
+private:
+	string name;
+	int englishScore;
+	int mathScore;
+	int getSum()
+	{
+		return englishScore + mathScore;
+	}
+public:
+	Student(string n, int e, int m)
+	{
+		name = n;
+		englishScore = e;
+		mathScore = m;
+	}
+	void show()
+	{
+	cout << name << " : [합계" << getSum() << "점]\n";
+	}
+};
+
+클래스 내부에서 정의된 멤버 함수를 불러올 때는 멤버 참조 연산자(.)를 사용하여 불러오게 된다.
+int main(void)
+{
+	Student a = Student("전장우", 100, 96); //a, b, c가 인스턴스
+	Student b = Student("김민재", 85, 93);
+	Student c = Student("문승후", 88, 90);
+	a.show();
+	b.show();
+	c.show();
+	//cout << a.getSum(); private 접근한정자는외부에서접근불가(오류발생)
+	system("pause");
+	return 0;
+}
+
+C++의 클래스 : this 포인터
+1) 기본적으로 하나의 클래스에서 생성된 인스턴스는 서로 독립된 메모리 영역에 멤버 변수를 저장하고, 관리한다. 다만 멤버 함수는 모든 인스턴스가 공유한다는 점에서, 함수 내에서 인스턴스를 구분할 필요가 있다.
+2) C++의 this 포인터 자료형으로, ‘상수’라는 점에서 값을 변경할 수 없다.
+
+class Student
+{
+private:
+	string name;
+	int englishScore;
+	int mathScore;
+	int getSum()
+	{
+		return englishScore + mathScore;
+	}
+public:
+	Student(string name, int englishScore, int mathScore)
+	{
+		this->name = name;
+		this->englishScore = englishScore;
+		this->mathScore = mathScore;
+	}
+	void show()
+	{
+		cout << name << " : [합계" << getSum() << "점]\n";
+	}
+};
